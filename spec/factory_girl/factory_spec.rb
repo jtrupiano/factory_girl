@@ -498,13 +498,23 @@ describe Factory do
       factory.default_strategy.should == :stub
     end
     
-    describe 'defining a child factory' do
+    describe 'defining a child factory without setting default strategy' do
       before do
-        @child  = Factory.define(:child_object, :parent => :object)   {}
+        @child = Factory.define(:child_object, :parent => :object) {}
       end
       
       it "should inherit default strategy from its parent" do
         @child.default_strategy.should == :stub
+      end
+    end
+    
+    describe 'defining a child factory with a default strategy' do
+      before do
+        @child2 = Factory.define(:child_object2, :parent => :object, :default_strategy => :build) {}
+      end
+      
+      it "should not inherit default strategy from parent" do
+        @child2.default_strategy.should == :build
       end
     end
   end
